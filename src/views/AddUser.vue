@@ -56,8 +56,15 @@ export default {
     this.searchData();
   },
   methods: {
+    sortData(field, order) {
+      this.sortField = field;
+      this.sortOrder = order;
+      this.searchData();
+    },
     resetData() {
       this.search = "";
+      this.sortField = "id";
+      this.sortOrder = "asc";
       this.searchData();
     },
     searchData() {
