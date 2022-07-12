@@ -1,62 +1,157 @@
 <template>
   <div>
-    <b-button @click="saveData" variant="success">Button</b-button>
+    <h1>Wizard App</h1>
+    <div class="navbar">
+      <input v-model="search" type="text" placeholder="Search..." />
+      <button class="float-left success" @click="searchData">Search</button>
+      <button class="float-left success" @click="resetData">Reset</button>
+      <button class="float-right success" @click="showSteps">Add New</button>
+    </div>
+    <table v-if="users.length > 0" class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID <i class="fa fa-unsorted"></i></th>
+          <th scope="col">Name <i class="fa fa-unsorted"></i></th>
+          <th scope="col">Email <i class="fa fa-unsorted"></i></th>
+          <th scope="col">DOB <i class="fa fa-unsorted"></i></th>
+          <th scope="col">Phone no. <i class="fa fa-unsorted"></i></th>
+          <th scope="col">College <i class="fa fa-unsorted"></i></th>
+          <th scope="col">CGPA <i class="fa fa-unsorted"></i></th>
+          <th scope="col">Qualification <i class="fa fa-unsorted"></i></th>
+          <th scope="col">Hobby <i class="fa fa-unsorted"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.dob }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.college }}</td>
+          <td>{{ user.cgpa }}</td>
+          <td>{{ user.qualification }}</td>
+          <td>{{ user.hobby }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>
-import { BButton } from "bootstrap-vue";
 import axios from "axios";
 export default {
-  components: {
-    BButton,
-  },
+  components: {},
   data() {
     return {
       validation: {},
       validate: false,
       showWizard: false,
+      users: [],
+      search: "",
+      sortField: "id",
+      sortOrder: "desc",
     };
   },
-
+  mounted() {
+    this.searchData();
+  },
   methods: {
-    saveData() {
-      this.user = {
-        name: "stark abbot",
-        password: "Pass@1234",
-        password_confirmation: "Pass@1234",
-        email: "test@yopmail.com",
-        cgpa: 9,
-        hobby: 2,
-        dob: "2022-07-11",
-        qualification: "computer",
-        college: "Earth institute of technology",
-        phone: "9898121255",
-        work_experience:
-          "i have created a portfolio of projects with html,css.",
-      };
-      const api = axios.create({ baseURL: "http://127.0.0.1:8000/api/" });
-      api
-        .post("/users", this.user, {
-          headers: {
-            "Content-Type": "multipart/form-data",
+    resetData() {
+      this.search = "";
+      this.searchData();
+    },
+    searchData() {
+      axios
+        .get("/users", {
+          params: {
+            search: this.search,
+            sortField: this.sortField,
+            sortOrder: this.sortOrder,
           },
         })
-        .then((response) => {
-          alert(response);
-        })
-        .catch((error) => {
-          if (error.response.status == 422) {
-            this.validation = error.response.data.errors;
-            this.validate = true;
-            console.log(error);
-            alert(error.response.data.errors);
-          } else {
-            console.log(error);
-            alert(error.response.data.errors);
-          }
-        });
+        .then((response) => (this.users = response.data.users))
+        .catch((error) => console.log(error));
+    },
+    showSteps() {
+      // this.user = {
+      //   name: "stark abbot",
+      //   password: "Pass@1234",
+      //   password_confirmation: "Pass@1234",
+      //   email: "test@yopmail.com",
+      //   cgpa: 9,
+      //   hobby: "reading",
+      //   dob: "2022-07-11",
+      //   qualification: "computer",
+      //   college: "Earth institute of technology",
+      //   phone: "9898121255",
+      //   work_experience:
+      //     "i have created a portfolio of projects with html,css.",
+      // };
+      //const api = axios.create({ baseURL: "http://127.0.0.1:8000/api/" });
+      // api
+      //   .post("/users", this.user)
+      //   .then((response) => {
+      //     alert(response);
+      //   })
+      //   .catch((error) => {
+      //     if (error.response.status == 422) {
+      //       this.validation = error.response.data.errors;
+      //       this.validate = true;
+      //       console.log(error);
+      //       alert(error.response.data.errors);
+      //     } else {
+      //       console.log(error);
+      //       alert(error.response.data.errors);
+      //     }
+      //   });
     },
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid;
+  padding: 5px;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #2c3e50;
+}
+
+.navbar button {
+  background-color: #42b983;
+  border: none;
+  text-align: center;
+  padding: 7px;
+  margin: 11px;
+  font-style: initial;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+input {
+  border: 0;
+  background-color: white;
+  width: 200px;
+  float: left;
+  margin: 12px;
+  padding: 7px;
+}
+
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+</style>

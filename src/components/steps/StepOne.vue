@@ -1,18 +1,14 @@
 <template>
   <div>
     <label for="first_name">First Name</label>
-    <b-input type="text" id="first_name" name="name" v-model="name" />
+    <input type="text" id="first_name" name="name" v-model="name" />
     <label for="email_address">Email</label>
-    <b-input type="email" id="email_address" name="email" v-model="email" />
+    <input type="email" id="email_address" name="email" v-model="email" />
   </div>
 </template>
 <script>
-import BInput from "bootstrap-vue";
-
 export default {
-  components: {
-    BInput,
-  },
+  components: {},
   props: {
     modalShow: {
       type: Boolean,

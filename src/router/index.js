@@ -8,6 +8,7 @@ const routes = [
     path: "/",
     name: "home",
     component: require("../views/AddUser.vue"),
+    redirect: "/dashboard",
   },
   {
     path: "/dashboard",

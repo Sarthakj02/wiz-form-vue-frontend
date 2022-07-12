@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/dashboard">Add User</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
     <router-view />
   </div>
 </template>
@@ -21,9 +17,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #35495e;
 }
 
+body {
+  background-color: #42b883;
+  font-size: 20px;
+}
 nav {
   padding: 30px;
 }
