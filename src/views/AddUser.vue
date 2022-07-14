@@ -3,9 +3,9 @@
     <h1>Wizard App</h1>
     <div class="navbar">
       <input v-model="search" type="text" placeholder="Search..." />
-      <button class="float-left success" @click="searchData">Search</button>
-      <button class="float-left success" @click="resetData">Reset</button>
-      <button class="float-right success" @click="showSteps">Add New</button>
+      <button class="float-left" @click="searchData">Search</button>
+      <button class="float-left" @click="resetData">Reset</button>
+      <button class="float-right" @click="showSteps">Add New</button>
     </div>
     <table v-if="users.length > 0" class="table">
       <thead>
@@ -35,12 +35,26 @@
         </tr>
       </tbody>
     </table>
+    <step-first
+      v-if="$store.state.step === 1 && showWizard"
+      :modalShow="showWizard"
+      @hideWizard="hideModal"
+    />
+    <step-second v-else-if="$store.state.step === 2" :modalShow="showWizard" />
+    <step-third v-else-if="$store.state.step === 3" :modalShow="showWizard" />
   </div>
 </template>
 <script>
 import axios from "axios";
+import StepFirst from "../components/steps/StepFirst.vue";
+import StepSecond from "../components/steps/StepSecond.vue";
+import StepThird from "../components/steps/StepThird.vue";
 export default {
-  components: {},
+  components: {
+    StepFirst,
+    StepSecond,
+    StepThird,
+  },
   data() {
     return {
       validation: {},
@@ -61,6 +75,9 @@ export default {
       this.sortOrder = order;
       this.searchData();
     },
+    hideModal() {
+      this.showWizard = false;
+    },
     resetData() {
       this.search = "";
       this.sortField = "id";
@@ -80,6 +97,8 @@ export default {
         .catch((error) => console.log(error));
     },
     showSteps() {
+      this.showWizard = true;
+      this.$store.state.step;
       // this.user = {
       //   name: "stark abbot",
       //   password: "Pass@1234",
