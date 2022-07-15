@@ -10,13 +10,7 @@
       <div class="modal-mask" v-show="showResult">
         <div class="modal-wrapper">
           <div class="modal-container">
-            <div class="modal-header">Congrats</div>
             <div class="modal-body" v-html="result"></div>
-            <div class="modal-footer">
-              <slot name="footer">
-                <button class="step-button" @click="close">close</button>
-              </slot>
-            </div>
           </div>
         </div>
       </div>
@@ -50,9 +44,9 @@ export default {
       } else if (this.$store.state.step === 2) {
         this.$store.commit("setStep", { step: 3 });
       } else {
-        this.result = this.$store.state.name;
-        alert(this.$store.state.name);
+        this.result = console.log(this.$store.state);
         this.showResult = true;
+        alert(this.$store.state.name);
       }
     },
     navigatePrev() {

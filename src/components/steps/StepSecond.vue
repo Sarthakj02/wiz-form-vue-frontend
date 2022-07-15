@@ -16,7 +16,7 @@
       <div>
         <label class="form-fields" for="college">College:</label>
         <input
-          class="form-fields"
+          class="form-fields college-input"
           type="text"
           id="college"
           name="college"
@@ -24,9 +24,9 @@
         />
       </div>
       <div>
-        <label for="cgpa">CGPA:</label>
+        <label class="form-fields cgpa-label" for="cgpa">CGPA:</label>
         <input
-          class="form-fields"
+          class="cgpa-input form-fields"
           id="cgpa"
           type="number"
           name="cgpa"
@@ -103,5 +103,11 @@ export default {
   position: fixed;
   top: 0px;
   left: 0px;
+}
+.college-input {
+  margin-left: 61px;
+}
+.cgpa-input {
+  margin-left: 75px;
 }
 </style>

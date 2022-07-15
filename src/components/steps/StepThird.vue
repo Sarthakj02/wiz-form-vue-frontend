@@ -6,7 +6,7 @@
       <div>
         <label class="form-fields" for="dob">DOB:</label>
         <input
-          class="form-fields"
+          class="form-fields dob-input"
           type="text"
           id="dob"
           dob="dob"
@@ -16,7 +16,7 @@
       <div>
         <label class="form-fields" for="phone">Phone:</label>
         <input
-          class="form-fields"
+          class="form-fields phone-input"
           type="number"
           id="phone"
           name="phone"
@@ -103,5 +103,12 @@ export default {
   position: fixed;
   top: 0px;
   left: 0px;
+}
+
+.phone-input {
+  margin-left: 74px;
+}
+.dob-input {
+  margin-left: 87px;
 }
 </style>
