@@ -1,14 +1,50 @@
-<template>
+<template v-model="modelShow">
   <div>
-    <!-- <label for="first_name">First Name</label>
-    <input type="text" id="first_name" name="name" v-model="name" />
-    <label for="email_address">Email</label>
-    <input type="email" id="email_address" name="email" v-model="email" /> -->
+    <div class="modal-content steps">
+      <span @click="closeModal" class="close">&times;</span>
+      <h2>Step 2</h2>
+      <div>
+        <label class="form-fields" for="qualification">Qualification:</label>
+        <input
+          class="form-fields"
+          type="text"
+          id="qualification"
+          qualification="qualification"
+          v-model="qualification"
+        />
+      </div>
+      <div>
+        <label class="form-fields" for="college">College:</label>
+        <input
+          class="form-fields"
+          type="text"
+          id="college"
+          name="college"
+          v-model="college"
+        />
+      </div>
+      <div>
+        <label for="cgpa">CGPA:</label>
+        <input
+          class="form-fields"
+          id="cgpa"
+          type="number"
+          name="cgpa"
+          v-model="cgpa"
+        />
+      </div>
+      <the-buttons></the-buttons>
+    </div>
+    <div class="outside" v-on:click="closeModal"></div>
   </div>
 </template>
 <script>
+import TheButtons from "../TheButtons.vue";
+
 export default {
-  components: {},
+  components: {
+    TheButtons,
+  },
   props: {
     modalShow: {
       type: Boolean,
@@ -16,27 +52,56 @@ export default {
     },
   },
   data() {
-    return {
-      test: 0,
-    };
+    return {};
+  },
+  methods: {
+    closeModal() {
+      this.$emit("hideWizard", true);
+    },
   },
   computed: {
-    name: {
+    step: {
       get() {
-        return this.$store.state.name;
+        return this.$store.state.step;
       },
       set(value) {
-        this.$store.commit("setName", { name: value });
+        this.$store.commit("setStep", { step: value });
       },
     },
-    email: {
+    qualification: {
       get() {
-        return this.$store.state.email;
+        return this.$store.state.qualification;
       },
       set(value) {
-        this.$store.commit("setEmail", { email: value });
+        this.$store.commit("setQualification", { qualification: value });
+      },
+    },
+    college: {
+      get() {
+        return this.$store.state.college;
+      },
+      set(value) {
+        this.$store.commit("setCollege", { college: value });
+      },
+    },
+    cgpa: {
+      get() {
+        return this.$store.state.cgpa;
+      },
+      set(value) {
+        this.$store.commit("setCgpa", { cgpa: value });
       },
     },
   },
 };
 </script>
+
+<style scoped>
+.outside {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+</style>

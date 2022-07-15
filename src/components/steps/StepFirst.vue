@@ -1,6 +1,6 @@
 <template v-model="modelShow">
-  <div class="step-one">
-    <div class="modal-content">
+  <div>
+    <div class="modal-content steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 1</h2>
       <div>
@@ -24,17 +24,28 @@
         />
       </div>
       <div>
-        <label class="form-fields" for="phone">Phone:</label>
+        <label for="password">Password:</label>
         <input
           class="form-fields"
-          type="number"
-          id="phone"
-          name="phone"
-          v-model="phone"
+          id="password"
+          type="password"
+          name="password"
+          autocomplete="new-password"
+          v-model="password"
         />
+      </div>
+      <div class="select-div">
+        <label class="form-fields" for="hobby">Hobby:</label>
+        <select class="form-fields select" v-model="hobby">
+          <option disabled value="">Please select one</option>
+          <option v-for="item in hobbies" :key="item" :value="item">
+            {{ item }}
+          </option>
+        </select>
       </div>
       <the-buttons></the-buttons>
     </div>
+    <div class="outside" v-on:click="closeModal"></div>
   </div>
 </template>
 <script>
@@ -52,7 +63,7 @@ export default {
   },
   data() {
     return {
-      test: 0,
+      hobbies: ["Reading", "Singing", "Dancing", "Swimming"],
     };
   },
   methods: {
@@ -85,12 +96,20 @@ export default {
         this.$store.commit("setEmail", { email: value });
       },
     },
-    phone: {
+    password: {
       get() {
-        return this.$store.state.phone;
+        return this.$store.state.password;
       },
       set(value) {
-        this.$store.commit("setPhone", { phone: value });
+        this.$store.commit("setPassword", { password: value });
+      },
+    },
+    hobby: {
+      get() {
+        return this.$store.state.hobby;
+      },
+      set(value) {
+        this.$store.commit("setHobby", { hobby: value });
       },
     },
   },
@@ -98,24 +117,14 @@ export default {
 </script>
 
 <style scoped>
-.step-one {
-  width: 500px;
-  height: 500px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -150px;
-  margin-top: -150px;
-  background: white;
+.outside {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
 }
-.close {
-  padding-right: 10px;
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-.form-fields {
-  margin: 20px;
+.select-div {
+  margin-right: 69px;
 }
 </style>

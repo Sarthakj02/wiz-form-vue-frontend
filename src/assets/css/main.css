@@ -1,0 +1,51 @@
+button {
+    background-color: #42b983;
+    border: none;
+    text-align: center;
+    padding: 7px;
+    margin: 11px;
+    font-style: initial;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+
+.step-button {
+    padding: 12px 18px;
+    font-size: 16px;    
+  }
+
+.steps {
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    z-index: 500;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -150px;
+    background: white;
+  }
+
+  .close {
+    padding-right: 10px;
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .form-fields {
+    margin: 20px;
+  }
+  .outside {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+  }
+
+  .select,
+  input {
+    padding: 8px 12px;
+    font-size: 16px;
+  }

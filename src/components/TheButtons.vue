@@ -1,14 +1,9 @@
 <template>
   <div>
-    <button
-      class=""
-      @click="navigatePrev"
-      type="button"
-      v-show="togglePrevious()"
-    >
+    <button class="step-button" @click="navigatePrev" v-show="togglePrevious()">
       Previous
     </button>
-    <button class="btn btn-info" @click="navigateNext" type="button">
+    <button class="step-button" @click="navigateNext" type="button">
       {{ nextBtnTxt() }}
     </button>
     <transition name="modal">
@@ -19,12 +14,7 @@
             <div class="modal-body" v-html="result"></div>
             <div class="modal-footer">
               <slot name="footer">
-                <button
-                  class="modal-default-button btn btn-warning"
-                  @click="close"
-                >
-                  close
-                </button>
+                <button class="step-button" @click="close">close</button>
               </slot>
             </div>
           </div>
@@ -36,7 +26,10 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      showResult: false,
+      result: "",
+    };
   },
   methods: {
     nextBtnTxt() {
@@ -52,22 +45,28 @@ export default {
       return true;
     },
     navigateNext() {
-      if (this.$store.state.step == 1) {
-        this.$router.push("/second-step/");
-      } else if (this.$store.state.step == "secondStep") {
-        this.$router.push("/third-step/");
+      if (this.$store.state.step === 1) {
+        this.$store.commit("setStep", { step: 2 });
+      } else if (this.$store.state.step === 2) {
+        this.$store.commit("setStep", { step: 3 });
       } else {
-        console.log(this.$store.state.name);
+        this.result = this.$store.state.name;
+        alert(this.$store.state.name);
+        this.showResult = true;
       }
     },
     navigatePrev() {
-      if (this.$store.state.step == "thirdStep") {
-        this.$router.push("/second-step/");
-      } else if (this.$store.state.step == "secondStep") {
-        this.$router.push("/first-step/");
+      if (this.$store.state.step === 3) {
+        this.$store.commit("setStep", { step: 2 });
+      } else if (this.$store.state.step === 2) {
+        this.$store.commit("setStep", { step: 1 });
       }
     },
     close() {},
   },
 };
 </script>
+<style scoped>
+.step-button {
+}
+</style>

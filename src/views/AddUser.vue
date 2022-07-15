@@ -40,8 +40,16 @@
       :modalShow="showWizard"
       @hideWizard="hideModal"
     />
-    <step-second v-else-if="$store.state.step === 2" :modalShow="showWizard" />
-    <step-third v-else-if="$store.state.step === 3" :modalShow="showWizard" />
+    <step-second
+      v-else-if="$store.state.step === 2 && showWizard"
+      :modalShow="showWizard"
+      @hideWizard="hideModal"
+    />
+    <step-third
+      v-else-if="$store.state.step === 3 && showWizard"
+      :modalShow="showWizard"
+      @hideWizard="hideModal"
+    />
   </div>
 </template>
 <script>
@@ -152,17 +160,6 @@ td {
 .navbar {
   overflow: hidden;
   background-color: #2c3e50;
-}
-
-.navbar button {
-  background-color: #42b983;
-  border: none;
-  text-align: center;
-  padding: 7px;
-  margin: 11px;
-  font-style: initial;
-  font-size: 15px;
-  border-radius: 5px;
 }
 
 input {
