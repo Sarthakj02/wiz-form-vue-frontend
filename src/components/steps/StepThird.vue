@@ -3,17 +3,18 @@
     <div class="modal-content steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 3</h2>
-      <div>
+      <div class="parent-div">
         <label class="form-fields" for="dob">DOB:</label>
         <input
           class="form-fields dob-input"
-          type="text"
+          type="date"
           id="dob"
           dob="dob"
+          max="2019-07-19"
           v-model="dob"
         />
       </div>
-      <div>
+      <div class="parent-div">
         <label class="form-fields" for="phone">Phone:</label>
         <input
           class="form-fields phone-input"
@@ -23,15 +24,16 @@
           v-model="phone"
         />
       </div>
-      <div>
+      <div class="parent-div">
         <label for="work_experience">Work Experience:</label>
-        <input
+        <textarea
           class="form-fields"
           id="work_experience"
-          type="text"
           name="work_experience"
+          cols="50"
+          rows="4"
           v-model="workExperience"
-        />
+        ></textarea>
       </div>
       <the-buttons></the-buttons>
     </div>
@@ -106,9 +108,17 @@ export default {
 }
 
 .phone-input {
-  margin-left: 74px;
+  margin-left: 42px;
 }
 .dob-input {
-  margin-left: 87px;
+  margin-left: 57px;
+}
+label {
+  display: inline-block;
+  max-width: 160px;
+}
+.parent-div {
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -11,7 +11,7 @@ export default new Vuex.Store({
     dob: "",
     qualification: "",
     college: "",
-    cgpa: "",
+    cgpa: 0,
     password: "",
     work_experience: "",
     hobby: "",
