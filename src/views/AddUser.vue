@@ -106,7 +106,6 @@ export default {
     },
     showSteps() {
       this.showWizard = true;
-      this.$store.state.step;
       // this.user = {
       //   name: "stark abbot",
       //   password: "Pass@1234",

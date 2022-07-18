@@ -3,8 +3,8 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
+const getDefaultState = () => {
+  return {
     name: "",
     email: "",
     phone: "",
@@ -13,12 +13,22 @@ export default new Vuex.Store({
     college: "",
     cgpa: 0,
     password: "",
+    password_confirmation: "",
     work_experience: "",
     hobby: "",
     step: 1,
-  },
+  };
+};
+
+const state = getDefaultState();
+
+export default new Vuex.Store({
+  state,
   getters: {},
   mutations: {
+    resetState(state) {
+      Object.assign(state, getDefaultState());
+    },
     setStep(state, payload) {
       state.step = payload.step;
     },
@@ -53,6 +63,10 @@ export default new Vuex.Store({
       state.hobby = payload.hobby;
     },
   },
-  actions: {},
+  actions: {
+    resetState({ commit }) {
+      commit("resetState");
+    },
+  },
   modules: {},
 });

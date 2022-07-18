@@ -6,23 +6,26 @@
     <button class="step-button" @click="navigateNext" type="button">
       {{ nextBtnTxt() }}
     </button>
-    <transition name="modal">
-      <div class="modal-mask" v-show="showResult">
-        <div class="modal-wrapper">
-          <div class="modal-container">
-            <div class="modal-body" v-html="result"></div>
+    <div v-show="showResult">
+      <div v-if="validate" class="error-list">
+        <div v-for="(errorArray, idx) in validationErrors" :key="idx">
+          <div v-for="(allErrors, idx) in errorArray" :key="idx">
+            <span>{{ allErrors }} </span>
           </div>
         </div>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       showResult: false,
       result: "",
+      validationErrors: {},
+      validate: false,
     };
   },
   methods: {
@@ -44,9 +47,36 @@ export default {
       } else if (this.$store.state.step === 2) {
         this.$store.commit("setStep", { step: 3 });
       } else {
-        this.result = console.log(this.$store.state);
+        this.result = this.$store.state;
+        this.showWizard = true;
+
+        this.user = {
+          name: this.$store.state.name,
+          password: this.$store.state.password,
+          password_confirmation: this.$store.state.password_confirmation,
+          email: this.$store.state.email,
+          cgpa: this.$store.state.cgpa,
+          hobby: this.$store.state.hobby,
+          dob: this.$store.state.dob,
+          qualification: this.$store.state.qualification,
+          college: this.$store.state.college,
+          phone: this.$store.state.phone,
+          work_experience: this.$store.state.work_experience,
+        };
+        axios
+          .post("/users", this.user)
+          .then((response) => {
+            alert(response);
+          })
+          .catch((error) => {
+            if (error.response.status == 422) {
+              this.validationErrors = error.response.data.errors;
+              this.validate = true;
+            } else {
+              this.validationErrors = error.response.data.errors;
+            }
+          });
         this.showResult = true;
-        alert(this.$store.state.name);
       }
     },
     navigatePrev() {
@@ -61,6 +91,9 @@ export default {
 };
 </script>
 <style scoped>
-.step-button {
+.error-list {
+  color: #d63301;
+  background-color: #ffccba;
+  border: 1px solid;
 }
 </style>

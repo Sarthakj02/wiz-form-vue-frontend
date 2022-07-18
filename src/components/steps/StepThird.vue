@@ -121,4 +121,7 @@ label {
   display: flex;
   align-items: center;
 }
+.steps {
+  overflow: auto;
+}
 </style>
