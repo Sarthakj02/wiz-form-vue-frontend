@@ -1,6 +1,6 @@
 <template v-model="modelShow">
   <div>
-    <div class="modal-content steps">
+    <div class="steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 2</h2>
       <div>

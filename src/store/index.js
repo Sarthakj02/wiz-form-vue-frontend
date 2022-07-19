@@ -56,6 +56,9 @@ export default new Vuex.Store({
     setPassword(state, payload) {
       state.password = payload.password;
     },
+    setPasswordConfirmation(state, payload) {
+      state.password_confirmation = payload.password_confirmation;
+    },
     setWorkExperience(state, payload) {
       state.work_experience = payload.work_experience;
     },

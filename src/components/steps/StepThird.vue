@@ -1,6 +1,6 @@
 <template v-model="modelShow">
   <div>
-    <div class="modal-content steps">
+    <div class="steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 3</h2>
       <div class="parent-div">
@@ -120,8 +120,5 @@ label {
 .parent-div {
   display: flex;
   align-items: center;
-}
-.steps {
-  overflow: auto;
 }
 </style>

@@ -83,6 +83,13 @@ export default {
   mounted() {
     this.searchData();
   },
+  watch: {
+    // whenever active changes, this function will run
+    showWizard: function () {
+      document.body.style.overflow = this.showWizard ? "hidden" : "";
+    },
+  },
+
   methods: {
     sortData(field, order) {
       this.sortField = field;

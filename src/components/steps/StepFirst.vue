@@ -1,6 +1,6 @@
 <template v-model="modelShow">
   <div>
-    <div class="modal-content steps">
+    <div class="steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 1</h2>
       <div>
@@ -32,6 +32,16 @@
           name="password"
           autocomplete="new-password"
           v-model="password"
+        />
+      </div>
+      <div>
+        <label for="password">Confirm Password:</label>
+        <input
+          class="form-fields"
+          id="password_confirmation"
+          type="password"
+          name="password_confirmation"
+          v-model="password_confirmation"
         />
       </div>
       <div class="select-div">
@@ -102,6 +112,16 @@ export default {
       },
       set(value) {
         this.$store.commit("setPassword", { password: value });
+      },
+    },
+    password_confirmation: {
+      get() {
+        return this.$store.state.password_confirmation;
+      },
+      set(value) {
+        this.$store.commit("setPasswordConfirmation", {
+          password_confirmation: value,
+        });
       },
     },
     hobby: {
