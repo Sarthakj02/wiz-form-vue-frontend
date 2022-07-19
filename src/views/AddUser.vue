@@ -19,6 +19,7 @@
           <th scope="col">CGPA <i class="fa fa-unsorted"></i></th>
           <th scope="col">Qualification <i class="fa fa-unsorted"></i></th>
           <th scope="col">Hobby <i class="fa fa-unsorted"></i></th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -32,6 +33,11 @@
           <td>{{ user.cgpa }}</td>
           <td>{{ user.qualification }}</td>
           <td>{{ user.hobby }}</td>
+          <td>
+            <button title="Delete" @click="deleteUser(user.id)">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -85,6 +91,23 @@ export default {
     },
     hideModal() {
       this.showWizard = false;
+    },
+    deleteUser(id) {
+      if (confirm("Are you sure you want to delete this user?")) {
+        axios
+          .delete(`/users/${id}`)
+          .then((response) => {
+            if (response.data.success === true) {
+              this.$toast.success(
+                `( ${response.data.user.name} ) ` + "User deleted successfully"
+              );
+              this.resetData();
+            }
+          })
+          .catch(() => {
+            this.$toast.error("Something went wrong");
+          });
+      }
     },
     resetData() {
       this.search = "";
@@ -175,5 +198,8 @@ input {
 }
 .float-right {
   float: right;
+}
+.fa {
+  font-size: 20px;
 }
 </style>
