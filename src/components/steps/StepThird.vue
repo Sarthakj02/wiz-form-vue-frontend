@@ -35,7 +35,7 @@
           v-model="workExperience"
         ></textarea>
       </div>
-      <the-buttons></the-buttons>
+      <the-buttons v-on="$listeners"></the-buttons>
     </div>
     <div class="outside" v-on:click="closeModal"></div>
   </div>

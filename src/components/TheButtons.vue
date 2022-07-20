@@ -66,14 +66,19 @@ export default {
         axios
           .post("/users", this.user)
           .then((response) => {
-            alert(response);
+            if (response.data.success === true) {
+              this.$toast.success(
+                `( ${response.data.user.name} ) ` + "User created successfully"
+              );
+              this.$emit("reset-data");
+            }
           })
           .catch((error) => {
             if (error.response.status == 422) {
               this.validationErrors = error.response.data.errors;
               this.validate = true;
             } else {
-              this.validationErrors = error.response.data.errors;
+              this.$toast.error("Something went wrong");
             }
           });
         this.showResult = true;

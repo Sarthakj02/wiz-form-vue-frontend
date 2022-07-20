@@ -37,6 +37,9 @@
             <button title="Delete" @click="deleteUser(user.id)">
               <i class="fa fa-trash-o"></i>
             </button>
+            <button title="View" @click="viewUser(user.id)">
+              <i class="fa fa-eye"></i>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -44,17 +47,26 @@
     <step-first
       v-if="$store.state.step === 1 && showWizard"
       :modalShow="showWizard"
+      @reset-data="resetData"
       @hideWizard="hideModal"
     />
     <step-second
       v-else-if="$store.state.step === 2 && showWizard"
       :modalShow="showWizard"
+      @reset-data="resetData"
       @hideWizard="hideModal"
     />
     <step-third
       v-else-if="$store.state.step === 3 && showWizard"
       :modalShow="showWizard"
+      @reset-data="resetData"
       @hideWizard="hideModal"
+    />
+    <view-user
+      v-if="viewData"
+      :viewShow="viewData"
+      @hideView="hideViewModal"
+      :userId="userId"
     />
   </div>
 </template>
@@ -63,21 +75,26 @@ import axios from "axios";
 import StepFirst from "../components/steps/StepFirst.vue";
 import StepSecond from "../components/steps/StepSecond.vue";
 import StepThird from "../components/steps/StepThird.vue";
+import ViewUser from "../components/ViewUser";
+
 export default {
   components: {
     StepFirst,
     StepSecond,
     StepThird,
+    ViewUser,
   },
   data() {
     return {
       validation: {},
       validate: false,
       showWizard: false,
+      viewData: false,
       users: [],
       search: "",
       sortField: "id",
       sortOrder: "desc",
+      userId: 0,
     };
   },
   mounted() {
@@ -98,6 +115,13 @@ export default {
     },
     hideModal() {
       this.showWizard = false;
+    },
+    hideViewModal() {
+      this.viewData = false;
+    },
+    viewUser(id) {
+      this.userId = id;
+      this.viewData = true;
     },
     deleteUser(id) {
       if (confirm("Are you sure you want to delete this user?")) {
@@ -120,6 +144,7 @@ export default {
       this.search = "";
       this.sortField = "id";
       this.sortOrder = "asc";
+      this.hideModal();
       this.searchData();
     },
     searchData() {
