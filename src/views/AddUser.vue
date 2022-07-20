@@ -40,25 +40,28 @@
             <button title="View" @click="viewUser(user.id)">
               <i class="fa fa-eye"></i>
             </button>
+            <button title="View" @click="editUser(user.id)">
+              <i class="fa fa-pencil"></i>
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
     <step-first
-      v-if="$store.state.step === 1 && showWizard"
-      :modalShow="showWizard"
+      v-if="step === 1 && (showWizard || edit)"
+      :editUserData="editUserData"
       @reset-data="resetData"
       @hideWizard="hideModal"
     />
     <step-second
-      v-else-if="$store.state.step === 2 && showWizard"
-      :modalShow="showWizard"
+      v-if="step === 2 && (showWizard || edit)"
+      :editUserData="editUserData"
       @reset-data="resetData"
       @hideWizard="hideModal"
     />
     <step-third
-      v-else-if="$store.state.step === 3 && showWizard"
-      :modalShow="showWizard"
+      v-if="step === 3 && (showWizard || edit)"
+      :editUserData="editUserData"
       @reset-data="resetData"
       @hideWizard="hideModal"
     />
@@ -90,7 +93,9 @@ export default {
       validate: false,
       showWizard: false,
       viewData: false,
+      edit: false,
       users: [],
+      editUserData: {},
       search: "",
       sortField: "id",
       sortOrder: "desc",
@@ -101,7 +106,7 @@ export default {
     this.searchData();
   },
   watch: {
-    // whenever active changes, this function will run
+    // whenever watch variable changes, their function will run
     showWizard: function () {
       document.body.style.overflow = this.showWizard ? "hidden" : "";
     },
@@ -109,7 +114,16 @@ export default {
       document.body.style.overflow = this.viewData ? "hidden" : "";
     },
   },
-
+  computed: {
+    step: {
+      get() {
+        return this.$store.state.step;
+      },
+      set(value) {
+        this.$store.commit("setStep", { step: value });
+      },
+    },
+  },
   methods: {
     sortData(field, order) {
       this.sortField = field;
@@ -118,6 +132,8 @@ export default {
     },
     hideModal() {
       this.showWizard = false;
+      this.edit = false;
+      // this.step = 1;
     },
     hideViewModal() {
       this.viewData = false;
@@ -125,6 +141,12 @@ export default {
     viewUser(id) {
       this.userId = id;
       this.viewData = true;
+    },
+    editUser(id) {
+      axios.get(`/users/${id}`).then((response) => {
+        this.editUserData = response.data.user;
+      });
+      this.edit = true;
     },
     deleteUser(id) {
       if (confirm("Are you sure you want to delete this user?")) {

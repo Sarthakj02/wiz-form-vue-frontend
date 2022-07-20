@@ -1,4 +1,4 @@
-<template v-model="modelShow">
+<template>
   <div>
     <div class="steps">
       <span @click="closeModal" class="close">&times;</span>
@@ -66,9 +66,21 @@ export default {
     TheButtons,
   },
   props: {
-    modalShow: {
-      type: Boolean,
-      default: false,
+    editUserData: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
+  watch: {
+    // whenever editUserData changes, this function will run
+    editUserData: function () {
+      if (this.editUserData) {
+        this.name = this.editUserData.name;
+        this.email = this.editUserData.email;
+        this.hobby = this.editUserData.hobby;
+      }
     },
   },
   data() {
@@ -82,14 +94,6 @@ export default {
     },
   },
   computed: {
-    step: {
-      get() {
-        return this.$store.state.step;
-      },
-      set(value) {
-        this.$store.commit("setStep", { step: value });
-      },
-    },
     name: {
       get() {
         return this.$store.state.name;
