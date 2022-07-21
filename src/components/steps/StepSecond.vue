@@ -53,16 +53,6 @@ export default {
       },
     },
   },
-  watch: {
-    // whenever editUserData changes, this function will run
-    editUserData: function () {
-      if (this.editUserData) {
-        this.qualification = this.editUserData.qualification;
-        this.college = this.editUserData.college;
-        this.cgpa = this.editUserData.cgpa;
-      }
-    },
-  },
   data() {
     return {};
   },

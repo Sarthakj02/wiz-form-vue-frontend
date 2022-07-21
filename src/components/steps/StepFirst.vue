@@ -73,16 +73,6 @@ export default {
       },
     },
   },
-  watch: {
-    // whenever editUserData changes, this function will run
-    editUserData: function () {
-      if (this.editUserData) {
-        this.name = this.editUserData.name;
-        this.email = this.editUserData.email;
-        this.hobby = this.editUserData.hobby;
-      }
-    },
-  },
   data() {
     return {
       hobbies: ["Reading", "Singing", "Dancing", "Swimming"],

@@ -55,16 +55,6 @@ export default {
       },
     },
   },
-  watch: {
-    // whenever editUserData changes, this function will run
-    editUserData: function () {
-      if (this.editUserData) {
-        this.dob = this.editUserData.dob;
-        this.phone = this.editUserData.phone;
-        this.workExperience = this.editUserData.work_experience;
-      }
-    },
-  },
   data() {
     return {};
   },

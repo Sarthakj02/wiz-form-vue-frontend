@@ -93,7 +93,6 @@ export default {
       validate: false,
       showWizard: false,
       viewData: false,
-      edit: false,
       users: [],
       editUserData: {},
       search: "",
@@ -123,6 +122,87 @@ export default {
         this.$store.commit("setStep", { step: value });
       },
     },
+    edit: {
+      get() {
+        return this.$store.state.edit;
+      },
+      set(value) {
+        this.$store.commit("setEdit", { edit: value });
+      },
+    },
+    name: {
+      get() {
+        return this.$store.state.name;
+      },
+      set(value) {
+        this.$store.commit("setName", { name: value });
+      },
+    },
+    email: {
+      get() {
+        return this.$store.state.email;
+      },
+      set(value) {
+        this.$store.commit("setEmail", { email: value });
+      },
+    },
+
+    hobby: {
+      get() {
+        return this.$store.state.hobby;
+      },
+      set(value) {
+        this.$store.commit("setHobby", { hobby: value });
+      },
+    },
+    qualification: {
+      get() {
+        return this.$store.state.qualification;
+      },
+      set(value) {
+        this.$store.commit("setQualification", { qualification: value });
+      },
+    },
+    college: {
+      get() {
+        return this.$store.state.college;
+      },
+      set(value) {
+        this.$store.commit("setCollege", { college: value });
+      },
+    },
+    cgpa: {
+      get() {
+        return this.$store.state.cgpa;
+      },
+      set(value) {
+        this.$store.commit("setCgpa", { cgpa: value });
+      },
+    },
+    dob: {
+      get() {
+        return this.$store.state.dob;
+      },
+      set(value) {
+        this.$store.commit("setDob", { dob: value });
+      },
+    },
+    phone: {
+      get() {
+        return this.$store.state.phone;
+      },
+      set(value) {
+        this.$store.commit("setPhone", { phone: value });
+      },
+    },
+    workExperience: {
+      get() {
+        return this.$store.state.work_experience;
+      },
+      set(value) {
+        this.$store.commit("setWorkExperience", { work_experience: value });
+      },
+    },
   },
   methods: {
     sortData(field, order) {
@@ -133,7 +213,7 @@ export default {
     hideModal() {
       this.showWizard = false;
       this.edit = false;
-      // this.step = 1;
+      this.step = 1;
     },
     hideViewModal() {
       this.viewData = false;
@@ -145,6 +225,15 @@ export default {
     editUser(id) {
       axios.get(`/users/${id}`).then((response) => {
         this.editUserData = response.data.user;
+        this.name = this.editUserData.name;
+        this.email = this.editUserData.email;
+        this.hobby = this.editUserData.hobby;
+        this.qualification = this.editUserData.qualification;
+        this.college = this.editUserData.college;
+        this.cgpa = this.editUserData.cgpa;
+        this.dob = this.editUserData.dob;
+        this.phone = this.editUserData.phone;
+        this.workExperience = this.editUserData.work_experience;
       });
       this.edit = true;
     },

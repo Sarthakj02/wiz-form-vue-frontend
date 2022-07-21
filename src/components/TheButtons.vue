@@ -28,6 +28,16 @@ export default {
       validate: false,
     };
   },
+  computed: {
+    edit: {
+      get() {
+        return this.$store.state.edit;
+      },
+      set(value) {
+        this.$store.commit("setEdit", { edit: value });
+      },
+    },
+  },
   methods: {
     nextBtnTxt() {
       if (this.$store.state.step === 3) {
@@ -63,6 +73,8 @@ export default {
           phone: this.$store.state.phone,
           work_experience: this.$store.state.work_experience,
         };
+        console.log(this.user);
+        debugger;
         axios
           .post("/users", this.user)
           .then((response) => {

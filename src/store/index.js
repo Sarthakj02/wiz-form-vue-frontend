@@ -17,6 +17,7 @@ const getDefaultState = () => {
     work_experience: "",
     hobby: "",
     step: 1,
+    edit: false,
   };
 };
 
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     setStep(state, payload) {
       state.step = payload.step;
+    },
+    setEdit(state, payload) {
+      state.edit = payload.edit;
     },
     setName(state, payload) {
       state.name = payload.name;
