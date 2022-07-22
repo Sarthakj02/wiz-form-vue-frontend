@@ -37,6 +37,14 @@ export default {
         this.$store.commit("setEdit", { edit: value });
       },
     },
+    id: {
+      get() {
+        return this.$store.state.id;
+      },
+      set(value) {
+        this.$store.commit("setId", { id: value });
+      },
+    },
   },
   methods: {
     nextBtnTxt() {
@@ -73,26 +81,47 @@ export default {
           phone: this.$store.state.phone,
           work_experience: this.$store.state.work_experience,
         };
-        console.log(this.user);
-        debugger;
-        axios
-          .post("/users", this.user)
-          .then((response) => {
-            if (response.data.success === true) {
-              this.$toast.success(
-                `( ${response.data.user.name} ) ` + "User created successfully"
-              );
-              this.$emit("reset-data");
-            }
-          })
-          .catch((error) => {
-            if (error.response.status == 422) {
-              this.validationErrors = error.response.data.errors;
-              this.validate = true;
-            } else {
-              this.$toast.error("Something went wrong");
-            }
-          });
+        if (this.id && this.edit) {
+          axios
+            .put(`/users/${this.id}`, this.user)
+            .then((response) => {
+              if (response.data.success === true) {
+                this.$toast.success(
+                  `( ${response.data.user.name} ) ` +
+                    "User updated successfully"
+                );
+                this.$emit("reset-data");
+              }
+            })
+            .catch((error) => {
+              if (error.response.status == 422) {
+                this.validationErrors = error.response.data.errors;
+                this.validate = true;
+              } else {
+                this.$toast.error("Something went wrong");
+              }
+            });
+        } else {
+          axios
+            .post("/users", this.user)
+            .then((response) => {
+              if (response.data.success === true) {
+                this.$toast.success(
+                  `( ${response.data.user.name} ) ` +
+                    "User created successfully"
+                );
+                this.$emit("reset-data");
+              }
+            })
+            .catch((error) => {
+              if (error.response.status == 422) {
+                this.validationErrors = error.response.data.errors;
+                this.validate = true;
+              } else {
+                this.$toast.error("Something went wrong");
+              }
+            });
+        }
         this.showResult = true;
       }
     },

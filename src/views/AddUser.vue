@@ -130,6 +130,14 @@ export default {
         this.$store.commit("setEdit", { edit: value });
       },
     },
+    id: {
+      get() {
+        return this.$store.state.id;
+      },
+      set(value) {
+        this.$store.commit("setId", { id: value });
+      },
+    },
     name: {
       get() {
         return this.$store.state.name;
@@ -214,6 +222,18 @@ export default {
       this.showWizard = false;
       this.edit = false;
       this.step = 1;
+      this.name = "";
+      this.email = "";
+      this.phone = "";
+      this.dob = "";
+      this.qualification = "";
+      this.college = "";
+      this.cgpa = 0;
+      this.password = "";
+      this.password_confirmation = "";
+      this.workExperience = "";
+      this.hobby = "";
+      this.id = 0;
     },
     hideViewModal() {
       this.viewData = false;
@@ -236,6 +256,7 @@ export default {
         this.workExperience = this.editUserData.work_experience;
       });
       this.edit = true;
+      this.id = id;
     },
     deleteUser(id) {
       if (confirm("Are you sure you want to delete this user?")) {
@@ -275,37 +296,6 @@ export default {
     },
     showSteps() {
       this.showWizard = true;
-      // this.user = {
-      //   name: "stark abbot",
-      //   password: "Pass@1234",
-      //   password_confirmation: "Pass@1234",
-      //   email: "test@yopmail.com",
-      //   cgpa: 9,
-      //   hobby: "reading",
-      //   dob: "2022-07-11",
-      //   qualification: "computer",
-      //   college: "Earth institute of technology",
-      //   phone: "9898121255",
-      //   work_experience:
-      //     "i have created a portfolio of projects with html,css.",
-      // };
-      //const api = axios.create({ baseURL: "http://127.0.0.1:8000/api/" });
-      // api
-      //   .post("/users", this.user)
-      //   .then((response) => {
-      //     alert(response);
-      //   })
-      //   .catch((error) => {
-      //     if (error.response.status == 422) {
-      //       this.validation = error.response.data.errors;
-      //       this.validate = true;
-      //       console.log(error);
-      //       alert(error.response.data.errors);
-      //     } else {
-      //       console.log(error);
-      //       alert(error.response.data.errors);
-      //     }
-      //   });
     },
   },
 };
