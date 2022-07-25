@@ -84,7 +84,11 @@ export default {
         };
         if (this.id && this.edit) {
           axios
-            .put(`/users/${this.id}`, this.user)
+            .put(`/users/${this.id}`, this.user, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
             .then((response) => {
               if (response.data.success === true) {
                 this.$toast.success(
@@ -104,7 +108,11 @@ export default {
             });
         } else {
           axios
-            .post("/users", this.user)
+            .post("/users", this.user, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
             .then((response) => {
               if (response.data.success === true) {
                 this.$toast.success(
