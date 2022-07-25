@@ -15,6 +15,7 @@ const getDefaultState = () => {
     password: "",
     password_confirmation: "",
     work_experience: "",
+    profile_image: "",
     hobby: "",
     step: 1,
     edit: false,
@@ -69,6 +70,9 @@ export default new Vuex.Store({
     },
     setWorkExperience(state, payload) {
       state.work_experience = payload.work_experience;
+    },
+    setProfileImage(state, payload) {
+      state.profile_image = payload.profile_image;
     },
     setHobby(state, payload) {
       state.hobby = payload.hobby;

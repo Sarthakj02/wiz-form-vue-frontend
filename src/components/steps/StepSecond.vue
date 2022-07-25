@@ -33,6 +33,23 @@
           v-model="cgpa"
         />
       </div>
+      <div>
+        <label class="form-fields" for="profile_image">Profile image:</label>
+        <button @click="$refs.fileupload.click()">Pick File</button>
+        <img
+          v-if="imgSrc"
+          id="profile_image"
+          name="profile_image"
+          :src="imgSrc"
+        />
+        <input
+          style="display: none"
+          type="file"
+          ref="fileupload"
+          @change="preview"
+        />
+        <button v-if="imgSrc" @click="resetImage()">Remove Image</button>
+      </div>
       <the-buttons v-on="$listeners"></the-buttons>
     </div>
     <div class="outside" v-on:click="closeModal"></div>
@@ -54,11 +71,24 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      imgSrc: "",
+      uploaded: "",
+    };
   },
   methods: {
     closeModal() {
       this.$emit("hideWizard", true);
+    },
+    resetImage() {
+      this.$refs.fileupload.value = null;
+      this.imgSrc = "";
+      this.profileImage = "";
+    },
+    preview(e) {
+      let imgSrc = URL.createObjectURL(e.target.files[0]);
+      this.profileImage = e.target.files[0];
+      this.imgSrc = imgSrc;
     },
   },
   computed: {
@@ -86,6 +116,14 @@ export default {
         this.$store.commit("setCgpa", { cgpa: value });
       },
     },
+    profileImage: {
+      get() {
+        return this.$store.state.profile_image;
+      },
+      set(value) {
+        this.$store.commit("setProfileImage", { profile_image: value });
+      },
+    },
   },
 };
 </script>
@@ -103,5 +141,9 @@ export default {
 }
 .cgpa-input {
   margin-left: 75px;
+}
+#profile_image {
+  border: 1px solid black;
+  height: 210px;
 }
 </style>

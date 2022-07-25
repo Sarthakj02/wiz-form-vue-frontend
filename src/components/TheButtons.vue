@@ -80,6 +80,7 @@ export default {
           college: this.$store.state.college,
           phone: this.$store.state.phone,
           work_experience: this.$store.state.work_experience,
+          profile_image: this.$store.state.profile_image,
         };
         if (this.id && this.edit) {
           axios

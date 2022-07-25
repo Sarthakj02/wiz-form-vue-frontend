@@ -254,6 +254,7 @@ export default {
         this.dob = this.editUserData.dob;
         this.phone = this.editUserData.phone;
         this.workExperience = this.editUserData.work_experience;
+        this.profileImage = this.editUserData.profile_image;
       });
       this.edit = true;
       this.id = id;
