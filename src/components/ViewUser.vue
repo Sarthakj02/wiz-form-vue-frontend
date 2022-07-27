@@ -45,6 +45,10 @@
             <td><b>Work Experience</b></td>
             <td>{{ user.work_experience }}</td>
           </tr>
+          <tr>
+            <td><b>Profile Image</b></td>
+            <td><img id="profile_image" :src="user.profile_image" /></td>
+          </tr>
         </table>
       </div>
     </div>
@@ -107,11 +111,9 @@ export default {
   left: 0px;
 }
 .view-data {
-  max-width: 520px;
-  max-height: 500px;
   position: fixed;
-  top: calc(50% - 250px);
-  left: calc(50% - 260px);
+  top: 10%;
+  left: 33%;
   z-index: 500;
   padding: 15px;
   background: white;

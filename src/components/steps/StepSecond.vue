@@ -148,9 +148,4 @@ export default {
 .cgpa-input {
   margin-left: 75px;
 }
-#profile_image {
-  border: 1px solid black;
-  height: 210px;
-  width: 370px;
-}
 </style>
