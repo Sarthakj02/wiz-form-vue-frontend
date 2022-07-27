@@ -84,7 +84,7 @@ export default {
         };
         if (this.id && this.edit) {
           axios
-            .put(`/users/${this.id}`, this.user, {
+            .post(`/users/${this.id}?_method=PUT`, this.user, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },

@@ -45,6 +45,7 @@
         <input
           style="display: none"
           type="file"
+          accept="image/*"
           ref="fileupload"
           @change="preview"
         />
@@ -76,7 +77,25 @@ export default {
       uploaded: "",
     };
   },
+  // watch: {
+  //   editUserData: function () {
+  //     console.log(this.editUserData.profile_image);
+  //     debugger;
+  //     this.imgSrc = this.editUserData.profile_image
+  //       ? this.editUserData.profile_image
+  //       : "";
+  //     console.log(this.imgSrc);
+  //     debugger;
+  //   },
+  // },
   methods: {
+    // updated() {
+    //   this.imgSrc = this.editUserData.profile_image
+    //     ? this.editUserData.profile_image
+    //     : "";
+    //   console.log(this.imgSrc);
+    //   debugger;
+    // },
     closeModal() {
       this.$emit("hideWizard", true);
     },
@@ -145,5 +164,6 @@ export default {
 #profile_image {
   border: 1px solid black;
   height: 210px;
+  max-width: 370px;
 }
 </style>
