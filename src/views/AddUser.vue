@@ -211,6 +211,14 @@ export default {
         this.$store.commit("setWorkExperience", { work_experience: value });
       },
     },
+    imgSrc: {
+      get() {
+        return this.$store.state.img_src;
+      },
+      set(value) {
+        this.$store.commit("setImgSrc", { img_src: value });
+      },
+    },
   },
   methods: {
     sortData(field, order) {
@@ -233,6 +241,7 @@ export default {
       this.password_confirmation = "";
       this.workExperience = "";
       this.hobby = "";
+      this.imgSrc = "";
       this.id = 0;
     },
     hideViewModal() {
@@ -254,7 +263,7 @@ export default {
         this.dob = this.editUserData.dob;
         this.phone = this.editUserData.phone;
         this.workExperience = this.editUserData.work_experience;
-        this.profileImage = this.editUserData.profile_image;
+        this.imgSrc = this.editUserData.profile_image;
       });
       this.edit = true;
       this.id = id;

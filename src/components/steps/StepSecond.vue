@@ -72,30 +72,9 @@ export default {
     },
   },
   data() {
-    return {
-      imgSrc: "",
-      uploaded: "",
-    };
+    return {};
   },
-  // watch: {
-  //   editUserData: function () {
-  //     console.log(this.editUserData.profile_image);
-  //     debugger;
-  //     this.imgSrc = this.editUserData.profile_image
-  //       ? this.editUserData.profile_image
-  //       : "";
-  //     console.log(this.imgSrc);
-  //     debugger;
-  //   },
-  // },
   methods: {
-    // updated() {
-    //   this.imgSrc = this.editUserData.profile_image
-    //     ? this.editUserData.profile_image
-    //     : "";
-    //   console.log(this.imgSrc);
-    //   debugger;
-    // },
     closeModal() {
       this.$emit("hideWizard", true);
     },
@@ -141,6 +120,14 @@ export default {
       },
       set(value) {
         this.$store.commit("setProfileImage", { profile_image: value });
+      },
+    },
+    imgSrc: {
+      get() {
+        return this.$store.state.img_src;
+      },
+      set(value) {
+        this.$store.commit("setImgSrc", { img_src: value });
       },
     },
   },
