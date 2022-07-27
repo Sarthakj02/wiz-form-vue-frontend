@@ -151,6 +151,6 @@ export default {
 #profile_image {
   border: 1px solid black;
   height: 210px;
-  max-width: 370px;
+  width: 370px;
 }
 </style>
