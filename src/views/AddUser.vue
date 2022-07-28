@@ -47,6 +47,12 @@
         </tr>
       </tbody>
     </table>
+    <the-pagination
+      :totalPages="10"
+      :perPage="10"
+      :currentPage="currentPage"
+      @pagechanged="onPageChange"
+    />
     <step-first
       v-if="step === 1 && (showWizard || edit)"
       :editUserData="editUserData"
@@ -79,6 +85,7 @@ import StepFirst from "../components/steps/StepFirst.vue";
 import StepSecond from "../components/steps/StepSecond.vue";
 import StepThird from "../components/steps/StepThird.vue";
 import ViewUser from "../components/ViewUser";
+import ThePagination from "../components/ThePagination.vue";
 
 export default {
   components: {
@@ -86,6 +93,7 @@ export default {
     StepSecond,
     StepThird,
     ViewUser,
+    ThePagination,
   },
   data() {
     return {
@@ -99,6 +107,7 @@ export default {
       sortField: "id",
       sortOrder: "desc",
       userId: 0,
+      currentPage: 1,
     };
   },
   mounted() {
@@ -221,6 +230,9 @@ export default {
     },
   },
   methods: {
+    onPageChange(page) {
+      this.currentPage = page;
+    },
     sortData(field, order) {
       this.sortField = field;
       this.sortOrder = order;
