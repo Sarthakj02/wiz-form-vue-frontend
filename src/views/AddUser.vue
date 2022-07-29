@@ -48,7 +48,7 @@
       </tbody>
     </table>
     <the-pagination
-      :totalPages="10"
+      :totalPages="totalPages"
       :perPage="10"
       :currentPage="currentPage"
       @pagechanged="onPageChange"
@@ -109,6 +109,7 @@ export default {
       page: 1,
       userId: 0,
       currentPage: 1,
+      totalPages: 3,
     };
   },
   mounted() {
@@ -317,7 +318,10 @@ export default {
             page: this.page,
           },
         })
-        .then((response) => (this.users = response.data.users.data))
+        .then((response) => {
+          this.users = response.data.users.data;
+          this.totalPages = response.data.users.last_page;
+        })
         .catch((error) => console.log(error));
     },
     showSteps() {
