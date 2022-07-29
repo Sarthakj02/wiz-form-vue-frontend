@@ -106,6 +106,7 @@ export default {
       search: "",
       sortField: "id",
       sortOrder: "desc",
+      page: 1,
       userId: 0,
       currentPage: 1,
     };
@@ -232,6 +233,8 @@ export default {
   methods: {
     onPageChange(page) {
       this.currentPage = page;
+      this.page = page;
+      this.searchData();
     },
     sortData(field, order) {
       this.sortField = field;
@@ -311,9 +314,10 @@ export default {
             search: this.search,
             sortField: this.sortField,
             sortOrder: this.sortOrder,
+            page: this.page,
           },
         })
-        .then((response) => (this.users = response.data.users))
+        .then((response) => (this.users = response.data.users.data))
         .catch((error) => console.log(error));
     },
     showSteps() {
