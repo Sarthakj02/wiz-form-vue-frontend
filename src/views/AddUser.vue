@@ -10,15 +10,37 @@
     <table v-if="users.length > 0" class="table">
       <thead>
         <tr>
-          <th scope="col">ID <i class="fa fa-unsorted"></i></th>
-          <th scope="col">Name <i class="fa fa-unsorted"></i></th>
-          <th scope="col">Email <i class="fa fa-unsorted"></i></th>
-          <th scope="col">DOB <i class="fa fa-unsorted"></i></th>
-          <th scope="col">Phone no. <i class="fa fa-unsorted"></i></th>
-          <th scope="col">College <i class="fa fa-unsorted"></i></th>
-          <th scope="col">CGPA <i class="fa fa-unsorted"></i></th>
-          <th scope="col">Qualification <i class="fa fa-unsorted"></i></th>
-          <th scope="col">Hobby <i class="fa fa-unsorted"></i></th>
+          <th scope="col">
+            ID <i class="fa fa-unsorted" @click="sortData('id')"></i>
+          </th>
+          <th scope="col">
+            Name <i class="fa fa-unsorted" @click="sortData('name')"></i>
+          </th>
+          <th scope="col">
+            Email
+            <i class="fa fa-unsorted" @click="sortData('email')"></i>
+          </th>
+          <th scope="col">
+            DOB <i class="fa fa-unsorted" @click="sortData('dob')"></i>
+          </th>
+          <th scope="col">
+            Phone no.
+            <i class="fa fa-unsorted" @click="sortData('phone')"></i>
+          </th>
+          <th scope="col">
+            College
+            <i class="fa fa-unsorted" @click="sortData('college')"></i>
+          </th>
+          <th scope="col">
+            CGPA <i class="fa fa-unsorted" @click="sortData('cgpa')"></i>
+          </th>
+          <th scope="col">
+            Qualification
+            <i class="fa fa-unsorted" @click="sortData('qualification')"></i>
+          </th>
+          <th scope="col">
+            Hobby <i class="fa fa-unsorted" @click="sortData('hobby')"></i>
+          </th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -237,9 +259,13 @@ export default {
       this.page = page;
       this.searchData();
     },
-    sortData(field, order) {
+    sortData(field) {
+      if (this.sortField != field) {
+        this.sortOrder = "desc";
+      } else {
+        this.sortOrder = this.sortOrder == "desc" ? "asc" : "desc";
+      }
       this.sortField = field;
-      this.sortOrder = order;
       this.searchData();
     },
     hideModal() {
@@ -313,8 +339,8 @@ export default {
         .get("/users", {
           params: {
             search: this.search,
-            sortField: this.sortField,
-            sortOrder: this.sortOrder,
+            sort_field: this.sortField,
+            sort_order: this.sortOrder,
             page: this.page,
           },
         })
