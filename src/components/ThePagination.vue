@@ -74,7 +74,7 @@ export default {
 
       // When on the last page
       if (this.currentPage === this.totalPages) {
-        return this.totalPages - this.maxVisibleButtons;
+        return this.totalPages - 2;
       }
 
       // When inbetween
@@ -89,12 +89,13 @@ export default {
         Math.min(this.startPage + this.maxVisibleButtons - 1, this.totalPages);
         i++
       ) {
-        range.push({
-          name: i,
-          isDisabled: i === this.currentPage,
-        });
+        if (i > 0) {
+          range.push({
+            name: i,
+            isDisabled: i === this.currentPage,
+          });
+        }
       }
-
       return range;
     },
     isInFirstPage() {
