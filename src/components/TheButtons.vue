@@ -46,6 +46,10 @@ export default {
       },
     },
   },
+  created() {
+    this.$validator = this.$parent.$validator;
+    console.log(this.$parent.refs, "hereeee");
+  },
   methods: {
     nextBtnTxt() {
       if (this.$store.state.step === 3) {
@@ -61,6 +65,11 @@ export default {
     },
     navigateNext() {
       if (this.$store.state.step === 1) {
+        console.log(this.$validator);
+        this.$validator.validate().then(() => {
+          alert("hello");
+        });
+        debugger;
         this.$store.commit("setStep", { step: 2 });
       } else if (this.$store.state.step === 2) {
         this.$store.commit("setStep", { step: 3 });

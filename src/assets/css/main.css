@@ -53,3 +53,8 @@ button {
     height: 210px;
     width: 370px;
   }
+
+  .error {
+    color: red;
+    margin-left: 88px;
+  }

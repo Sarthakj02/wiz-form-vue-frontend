@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import Toast from "vue-toastification";
+import { ValidationObserver } from "vee-validate";
+import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 
 // css files
 import "vue-toastification/dist/index.css";
@@ -11,6 +13,8 @@ import "./assets/css/main.css";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 Vue.config.productionTip = false;
+Vue.component("ValidationProvider", ValidationProvider);
+Vue.component("ValidationObserver", ValidationObserver);
 
 const options = {
   // You can set your default toast options here
