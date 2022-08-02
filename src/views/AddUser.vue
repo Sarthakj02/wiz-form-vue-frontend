@@ -142,6 +142,9 @@ export default {
     showWizard: function () {
       document.body.style.overflow = this.showWizard ? "hidden" : "";
     },
+    edit: function () {
+      document.body.style.overflow = this.edit ? "hidden" : "";
+    },
     viewData: function () {
       document.body.style.overflow = this.viewData ? "hidden" : "";
     },

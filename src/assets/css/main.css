@@ -16,13 +16,12 @@ button {
 
 .steps {
     width: 500px;
-    position: absolute;
     z-index: 500;
-    left: 50%;
-    top: 30%;
-    margin-left: -150px;
-    margin-top: -150px;
     background: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .close {
