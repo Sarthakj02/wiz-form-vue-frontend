@@ -255,6 +255,24 @@ export default {
         this.$store.commit("setImgSrc", { img_src: value });
       },
     },
+    password: {
+      get() {
+        return this.$store.state.password;
+      },
+      set(value) {
+        this.$store.commit("setPassword", { password: value });
+      },
+    },
+    password_confirmation: {
+      get() {
+        return this.$store.state.password_confirmation;
+      },
+      set(value) {
+        this.$store.commit("setPasswordConfirmation", {
+          password_confirmation: value,
+        });
+      },
+    },
   },
   methods: {
     onPageChange(page) {

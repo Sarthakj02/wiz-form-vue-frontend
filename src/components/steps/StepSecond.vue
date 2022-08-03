@@ -3,55 +3,96 @@
     <div class="steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 2</h2>
-      <div>
-        <label class="form-fields" for="qualification">Qualification:</label>
-        <input
-          class="form-fields"
-          type="text"
-          id="qualification"
-          qualification="qualification"
-          v-model="qualification"
-        />
-      </div>
-      <div>
-        <label class="form-fields" for="college">College:</label>
-        <input
-          class="form-fields college-input"
-          type="text"
-          id="college"
-          name="college"
-          v-model="college"
-        />
-      </div>
-      <div>
-        <label class="form-fields cgpa-label" for="cgpa">CGPA:</label>
-        <input
-          class="cgpa-input form-fields"
-          id="cgpa"
-          type="number"
-          name="cgpa"
-          v-model="cgpa"
-        />
-      </div>
-      <div>
-        <label class="form-fields" for="profile_image">Profile image:</label>
-        <button @click="$refs.fileupload.click()">Pick File</button>
-        <img
-          v-if="imgSrc"
-          id="profile_image"
-          name="profile_image"
-          :src="imgSrc"
-        />
-        <input
-          style="display: none"
-          type="file"
-          accept="image/*"
-          ref="fileupload"
-          @change="preview"
-        />
-        <button v-if="imgSrc" @click="resetImage()">Remove Image</button>
-      </div>
-      <the-buttons v-on="$listeners"></the-buttons>
+      <ValidationObserver v-slot="{ handleSubmit }" ref="observer2">
+        <form @submit.prevent="handleSubmit(navigateNext)">
+          <ValidationProvider
+            name="Qualification"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <div>
+              <label class="form-fields" for="qualification"
+                >Qualification:</label
+              >
+              <input
+                class="form-fields"
+                type="text"
+                id="qualification"
+                qualification="qualification"
+                v-model="qualification"
+              />
+              <div class="error">{{ errors[0] }}</div>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider
+            name="College"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <div>
+              <label class="form-fields" for="college">College:</label>
+              <input
+                class="form-fields college-input"
+                type="text"
+                id="college"
+                name="college"
+                v-model="college"
+              />
+              <div class="error">{{ errors[0] }}</div>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider name="CGPA" rules="required" v-slot="{ errors }">
+            <div>
+              <label class="form-fields cgpa-label" for="cgpa">CGPA:</label>
+              <input
+                class="cgpa-input form-fields"
+                id="cgpa"
+                type="number"
+                name="cgpa"
+                v-model="cgpa"
+              />
+              <div class="error">{{ errors[0] }}</div>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider
+            name="Profile Image"
+            ref="provider"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <div>
+              <label class="form-fields" for="profile_image"
+                >Profile image:</label
+              >
+              <button @click="$refs.fileupload.click()">Pick File</button>
+              <img
+                v-if="imgSrc"
+                id="profile_image"
+                name="profile_image"
+                :src="imgSrc"
+              />
+              <input
+                style="display: none"
+                type="file"
+                accept="image/*"
+                ref="fileupload"
+                @change="preview"
+              />
+              <button v-if="imgSrc" @click="resetImage()">Remove Image</button>
+              <div class="error">{{ errors[0] }}</div>
+            </div>
+          </ValidationProvider>
+
+          <the-buttons
+            ref="buttonComponent"
+            @validate-step-two-data="validateData"
+            v-on="$listeners"
+          ></the-buttons>
+        </form>
+      </ValidationObserver>
     </div>
     <div class="outside" v-on:click="closeModal"></div>
   </div>
@@ -75,6 +116,17 @@ export default {
     return {};
   },
   methods: {
+    async validateData() {
+      const isValid = await this.$refs.observer2.validate();
+      if (!isValid) {
+        // stop!!
+      } else {
+        this.$store.commit("setStep", { step: 3 });
+      }
+    },
+    navigateNext() {
+      this.$refs.buttonComponent.navigateNext();
+    },
     closeModal() {
       this.$emit("hideWizard", true);
     },
@@ -82,10 +134,12 @@ export default {
       this.$refs.fileupload.value = null;
       this.imgSrc = "";
       this.profileImage = "";
+      this.$refs.provider.syncValue(this.profileImage);
     },
     preview(e) {
       let imgSrc = URL.createObjectURL(e.target.files[0]);
       this.profileImage = e.target.files[0];
+      this.$refs.provider.syncValue(this.profileImage);
       this.imgSrc = imgSrc;
     },
   },

@@ -3,39 +3,63 @@
     <div class="steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 3</h2>
-      <div class="parent-div">
-        <label class="form-fields" for="dob">DOB:</label>
-        <input
-          class="form-fields dob-input"
-          type="date"
-          id="dob"
-          dob="dob"
-          max="2019-07-19"
-          v-model="dob"
-        />
-      </div>
-      <div class="parent-div">
-        <label class="form-fields" for="phone">Phone:</label>
-        <input
-          class="form-fields phone-input"
-          type="number"
-          id="phone"
-          name="phone"
-          v-model="phone"
-        />
-      </div>
-      <div class="parent-div">
-        <label for="work_experience">Work Experience:</label>
-        <textarea
-          class="form-fields"
-          id="work_experience"
-          name="work_experience"
-          cols="50"
-          rows="4"
-          v-model="workExperience"
-        ></textarea>
-      </div>
-      <the-buttons v-on="$listeners"></the-buttons>
+      <ValidationObserver v-slot="{ handleSubmit }" ref="observer3">
+        <form @submit.prevent="handleSubmit(navigateNext)">
+          <ValidationProvider name="DOB" rules="required" v-slot="{ errors }">
+            <div class="parent-div">
+              <label class="form-fields" for="dob">DOB:</label>
+              <input
+                class="form-fields dob-input"
+                type="date"
+                id="dob"
+                dob="dob"
+                max="2019-07-19"
+                v-model="dob"
+              />
+              <div class="error">{{ errors[0] }}</div>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider name="Phone" rules="required" v-slot="{ errors }">
+            <div class="parent-div">
+              <label class="form-fields" for="phone">Phone:</label>
+              <input
+                class="form-fields phone-input"
+                type="number"
+                id="phone"
+                name="phone"
+                v-model="phone"
+              />
+              <div class="error">{{ errors[0] }}</div>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider
+            name="Work Experience"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <div class="parent-div">
+              <label for="work_experience">Work Experience:</label>
+              <textarea
+                class="form-fields"
+                id="work_experience"
+                name="work_experience"
+                cols="50"
+                rows="4"
+                v-model="workExperience"
+              ></textarea>
+              <div class="error">{{ errors[0] }}</div>
+            </div>
+          </ValidationProvider>
+
+          <the-buttons
+            ref="buttonComponent"
+            @validate-step-three-data="validateData"
+            :validDataFlag="valid"
+            v-on="$listeners"
+          ></the-buttons>
+        </form>
+      </ValidationObserver>
     </div>
     <div class="outside" v-on:click="closeModal"></div>
   </div>
@@ -56,9 +80,21 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      valid: false,
+    };
   },
   methods: {
+    async validateData() {
+      const isValid = await this.$refs.observer3.validate();
+      if (!isValid) {
+        this.valid = false;
+        // stop!!
+      } else {
+        this.valid = true;
+        this.$refs.buttonComponent.finish();
+      }
+    },
     closeModal() {
       this.$emit("hideWizard", true);
     },
@@ -114,5 +150,14 @@ label {
 .parent-div {
   display: flex;
   align-items: center;
+}
+
+.error {
+  margin-left: 0;
+  margin-right: 5px;
+}
+
+.steps {
+  width: auto;
 }
 </style>

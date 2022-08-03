@@ -23,10 +23,15 @@ export default {
   data() {
     return {
       showResult: false,
-      result: "",
       validationErrors: {},
       validate: false,
     };
+  },
+  props: {
+    validDataFlag: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     edit: {
@@ -46,10 +51,6 @@ export default {
       },
     },
   },
-  created() {
-    this.$validator = this.$parent.$validator;
-    console.log(this.$parent.refs, "hereeee");
-  },
   methods: {
     nextBtnTxt() {
       if (this.$store.state.step === 3) {
@@ -64,19 +65,18 @@ export default {
       return true;
     },
     navigateNext() {
+      if (this.$store.state.step === 3) {
+        this.$emit("validate-step-three-data");
+      }
       if (this.$store.state.step === 1) {
-        console.log(this.$validator);
-        this.$validator.validate().then(() => {
-          alert("hello");
-        });
-        debugger;
-        this.$store.commit("setStep", { step: 2 });
+        this.$emit("validate-step-one-data");
       } else if (this.$store.state.step === 2) {
-        this.$store.commit("setStep", { step: 3 });
-      } else {
-        this.result = this.$store.state;
+        this.$emit("validate-step-two-data");
+      }
+    },
+    finish() {
+      if (this.validDataFlag == true) {
         this.showWizard = true;
-
         this.user = {
           name: this.$store.state.name,
           password: this.$store.state.password,
@@ -135,12 +135,12 @@ export default {
               if (error.response.status == 422) {
                 this.validationErrors = error.response.data.errors;
                 this.validate = true;
+                this.showResult = true;
               } else {
                 this.$toast.error("Something went wrong");
               }
             });
         }
-        this.showResult = true;
       }
     },
     navigatePrev() {

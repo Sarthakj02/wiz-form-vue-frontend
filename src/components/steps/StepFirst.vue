@@ -3,13 +3,9 @@
     <div class="steps">
       <span @click="closeModal" class="close">&times;</span>
       <h2>Step 1</h2>
-      <ValidationObserver v-slot="{ handleSubmit }" ref="refFormObserver">
+      <ValidationObserver v-slot="{ handleSubmit }" ref="observer1">
         <form @submit.prevent="handleSubmit(navigateNext)">
-          <ValidationProvider
-            name="Name"
-            rules="required|alpha"
-            v-slot="{ errors }"
-          >
+          <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
             <div>
               <label class="form-fields" for="name">Name:</label>
               <input
@@ -90,8 +86,10 @@
               <div class="error">{{ errors[0] }}</div>
             </div>
           </ValidationProvider>
-
-          <the-buttons v-on="$listeners"></the-buttons>
+          <the-buttons
+            @validate-step-one-data="validateData"
+            v-on="$listeners"
+          ></the-buttons>
         </form>
       </ValidationObserver>
     </div>
@@ -120,6 +118,14 @@ export default {
     };
   },
   methods: {
+    async validateData() {
+      const isValid = await this.$refs.observer1.validate();
+      if (!isValid) {
+        // stop!!
+      } else {
+        this.$store.commit("setStep", { step: 2 });
+      }
+    },
     closeModal() {
       this.$emit("hideWizard", true);
     },
