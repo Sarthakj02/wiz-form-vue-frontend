@@ -60,7 +60,7 @@
           <ValidationProvider
             name="Profile Image"
             ref="provider"
-            rules="required"
+            :rules="`${imageValidateFlag ? '' : 'required'}`"
             v-slot="{ errors }"
           >
             <div>
@@ -105,15 +105,15 @@ export default {
     TheButtons,
   },
   props: {
-    editUserData: {
-      type: Object,
-      default() {
-        return {};
-      },
+    editFlag: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
-    return {};
+    return {
+      imageValidate: false,
+    };
   },
   methods: {
     async validateData() {
@@ -135,15 +135,24 @@ export default {
       this.imgSrc = "";
       this.profileImage = "";
       this.$refs.provider.syncValue(this.profileImage);
+      this.imageValidate = false;
     },
     preview(e) {
       let imgSrc = URL.createObjectURL(e.target.files[0]);
       this.profileImage = e.target.files[0];
       this.$refs.provider.syncValue(this.profileImage);
+      this.imageValidate = true;
       this.imgSrc = imgSrc;
     },
   },
   computed: {
+    imageValidateFlag() {
+      if (this.editFlag) {
+        return true;
+      } else if (this.imageValidate) {
+        return true;
+      } else return false;
+    },
     qualification: {
       get() {
         return this.$store.state.qualification;
