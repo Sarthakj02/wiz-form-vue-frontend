@@ -84,7 +84,7 @@
     />
     <step-second
       v-if="step === 2 && (showWizard || edit)"
-      :editUserData="editUserData"
+      :editFlag="edit"
       @reset-data="resetData"
       @hideWizard="hideModal"
     />
