@@ -78,6 +78,7 @@
     <step-first
       v-if="step === 1 && (showWizard || edit)"
       :editUserData="editUserData"
+      :editFlag="edit"
       @reset-data="resetData"
       @hideWizard="hideModal"
     />
@@ -306,6 +307,7 @@ export default {
       this.hobby = "";
       this.imgSrc = "";
       this.id = 0;
+      this.editUserData = {};
     },
     hideViewModal() {
       this.viewData = false;

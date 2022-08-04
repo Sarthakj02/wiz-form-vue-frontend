@@ -39,7 +39,7 @@
 
           <ValidationProvider
             name="Password"
-            rules="required|min:6"
+            :rules="`${editFlag ? '' : 'required|min:8'}`"
             v-slot="{ errors }"
           >
             <div>
@@ -58,7 +58,7 @@
 
           <ValidationProvider
             name="Confirm Password"
-            rules="required|min:6"
+            :rules="`${editFlag ? '' : 'required|min:8'}`"
             v-slot="{ errors }"
           >
             <div>
@@ -109,6 +109,10 @@ export default {
       default() {
         return {};
       },
+    },
+    editFlag: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

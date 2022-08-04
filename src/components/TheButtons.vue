@@ -111,6 +111,7 @@ export default {
               if (error.response.status == 422) {
                 this.validationErrors = error.response.data.errors;
                 this.validate = true;
+                this.showResult = true;
               } else {
                 this.$toast.error("Something went wrong");
               }
