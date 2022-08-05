@@ -353,7 +353,7 @@ export default {
     resetData() {
       this.search = "";
       this.sortField = "id";
-      this.sortOrder = "asc";
+      this.sortOrder = "desc";
       this.hideModal();
       this.searchData();
     },

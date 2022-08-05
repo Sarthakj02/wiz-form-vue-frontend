@@ -60,8 +60,10 @@
           <ValidationProvider
             name="Profile Image"
             ref="provider"
-            rules="required"
-            v-slot="{ errors }"
+            :rules="`ext:jpg,jpeg,png,gif|${
+              profileImage || editFlag ? '' : 'required'
+            }`"
+            v-slot="{ errors, validate }"
           >
             <div>
               <label class="form-fields" for="profile_image"
@@ -78,8 +80,8 @@
                 style="display: none"
                 type="file"
                 accept="image/*"
+                @change="preview($event) || validate"
                 ref="fileupload"
-                @change="preview"
               />
               <button v-if="imgSrc" @click="resetImage()">Remove Image</button>
               <div class="error">{{ errors[0] }}</div>
@@ -122,9 +124,6 @@ export default {
         this.$store.commit("setStep", { step: 3 });
       }
     },
-    navigateNext() {
-      this.$refs.buttonComponent.navigateNext();
-    },
     closeModal() {
       this.$emit("hideWizard", true);
     },
@@ -134,11 +133,16 @@ export default {
       this.profileImage = "";
       this.$refs.provider.syncValue(this.profileImage);
     },
-    preview(e) {
-      let imgSrc = URL.createObjectURL(e.target.files[0]);
-      this.profileImage = e.target.files[0];
-      this.$refs.provider.syncValue(this.profileImage);
-      this.imgSrc = imgSrc;
+    async preview(e) {
+      const valid = await this.$refs.provider.validate(e);
+      if (valid.valid) {
+        let imgSrc = URL.createObjectURL(e.target.files[0]);
+        this.profileImage = e.target.files[0];
+        this.imgSrc = imgSrc;
+      } else {
+        this.imgSrc = "";
+        this.profileImage = "";
+      }
     },
   },
   computed: {
