@@ -27,12 +27,7 @@ export default {
       validate: false,
     };
   },
-  props: {
-    validDataFlag: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: {},
   computed: {
     edit: {
       get() {
@@ -75,73 +70,69 @@ export default {
       }
     },
     finish() {
-      if (this.validDataFlag == true) {
-        this.showWizard = true;
-        this.user = {
-          name: this.$store.state.name,
-          password: this.$store.state.password,
-          password_confirmation: this.$store.state.password_confirmation,
-          email: this.$store.state.email,
-          cgpa: this.$store.state.cgpa,
-          hobby: this.$store.state.hobby,
-          dob: this.$store.state.dob,
-          qualification: this.$store.state.qualification,
-          college: this.$store.state.college,
-          phone: this.$store.state.phone,
-          work_experience: this.$store.state.work_experience,
-          profile_image: this.$store.state.profile_image,
-        };
-        if (this.id && this.edit) {
-          axios
-            .post(`/users/${this.id}?_method=PUT`, this.user, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
-            .then((response) => {
-              if (response.data.success === true) {
-                this.$toast.success(
-                  `( ${response.data.user.name} ) ` +
-                    "User updated successfully"
-                );
-                this.$emit("reset-data");
-              }
-            })
-            .catch((error) => {
-              if (error.response.status == 422) {
-                this.validationErrors = error.response.data.errors;
-                this.validate = true;
-                this.showResult = true;
-              } else {
-                this.$toast.error("Something went wrong");
-              }
-            });
-        } else {
-          axios
-            .post("/users", this.user, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
-            .then((response) => {
-              if (response.data.success === true) {
-                this.$toast.success(
-                  `( ${response.data.user.name} ) ` +
-                    "User created successfully"
-                );
-                this.$emit("reset-data");
-              }
-            })
-            .catch((error) => {
-              if (error.response.status == 422) {
-                this.validationErrors = error.response.data.errors;
-                this.validate = true;
-                this.showResult = true;
-              } else {
-                this.$toast.error("Something went wrong");
-              }
-            });
-        }
+      this.showWizard = true;
+      this.user = {
+        name: this.$store.state.name,
+        password: this.$store.state.password,
+        password_confirmation: this.$store.state.password_confirmation,
+        email: this.$store.state.email,
+        cgpa: this.$store.state.cgpa,
+        hobby: this.$store.state.hobby,
+        dob: this.$store.state.dob,
+        qualification: this.$store.state.qualification,
+        college: this.$store.state.college,
+        phone: this.$store.state.phone,
+        work_experience: this.$store.state.work_experience,
+        profile_image: this.$store.state.profile_image,
+      };
+      if (this.id && this.edit) {
+        axios
+          .post(`/users/${this.id}?_method=PUT`, this.user, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            if (response.data.success === true) {
+              this.$toast.success(
+                `( ${response.data.user.name} ) ` + "User updated successfully"
+              );
+              this.$emit("reset-data");
+            }
+          })
+          .catch((error) => {
+            if (error.response.status == 422) {
+              this.validationErrors = error.response.data.errors;
+              this.validate = true;
+              this.showResult = true;
+            } else {
+              this.$toast.error("Something went wrong");
+            }
+          });
+      } else {
+        axios
+          .post("/users", this.user, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            if (response.data.success === true) {
+              this.$toast.success(
+                `( ${response.data.user.name} ) ` + "User created successfully"
+              );
+              this.$emit("reset-data");
+            }
+          })
+          .catch((error) => {
+            if (error.response.status == 422) {
+              this.validationErrors = error.response.data.errors;
+              this.validate = true;
+              this.showResult = true;
+            } else {
+              this.$toast.error("Something went wrong");
+            }
+          });
       }
     },
     navigatePrev() {

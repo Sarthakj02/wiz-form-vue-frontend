@@ -55,7 +55,6 @@
           <the-buttons
             ref="buttonComponent"
             @validate-step-three-data="validateData"
-            :validDataFlag="valid"
             v-on="$listeners"
           ></the-buttons>
         </form>
@@ -80,18 +79,14 @@ export default {
     },
   },
   data() {
-    return {
-      valid: false,
-    };
+    return {};
   },
   methods: {
     async validateData() {
       const isValid = await this.$refs.observer3.validate();
       if (!isValid) {
-        this.valid = false;
         // stop!!
       } else {
-        this.valid = true;
         this.$refs.buttonComponent.finish();
       }
     },
